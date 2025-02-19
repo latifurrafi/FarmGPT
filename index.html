@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Farming Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.0.16/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1574943320219-553eb213f72d?auto=format&fit=crop&q=80&w=2942&ixlib=rb-4.0.3');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+        .plant-border {
+            border-image: linear-gradient(to right, #4ade80, #22c55e) 1;
+            border-width: 3px;
+            border-style: solid;
+        }
+    </style>
+</head>
+<body class="min-h-screen p-6 flex flex-col items-center justify-start">
+    
+    <!-- Header Section -->
+    <header class="w-full max-w-4xl glass-effect rounded-2xl p-8 mb-8 text-center transform hover:scale-[1.02] transition-transform duration-300 plant-border animate-fade-in">
+        <div class="flex items-center justify-center mb-4">
+            <img src="https://images.unsplash.com/photo-1495908333425-29a1e0918c5f?auto=format&fit=crop&q=80&w=100&h=100&ixlib=rb-4.0.3" 
+                 alt="Plant icon" 
+                 class="w-16 h-16 rounded-full object-cover border-4 border-green-500 mr-4">
+            <h1 class="text-4xl font-bold text-green-800">Smart Farming Assistant</h1>
+        </div>
+        <p class="text-lg text-green-700 font-medium">Real-time AI-powered insights for optimal plant care</p>
+        <div class="flex justify-center gap-4 mt-4">
+            <div class="bg-green-100 px-4 py-2 rounded-full text-green-800">
+                <span class="font-semibold">Real-time Monitoring</span>
+            </div>
+            <div class="bg-green-100 px-4 py-2 rounded-full text-green-800">
+                <span class="font-semibold">AI Recommendations</span>
+            </div>
+            <div class="bg-green-100 px-4 py-2 rounded-full text-green-800">
+                <span class="font-semibold">Smart Analytics</span>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <main class="w-full max-w-4xl glass-effect rounded-2xl p-8 plant-border animate-fade-in">
+        <div class="flex items-center mb-6">
+            <div class="w-2 h-8 bg-green-500 rounded-full mr-4"></div>
+            <h2 class="text-2xl font-bold text-green-800">Latest Plant Care Insights</h2>
+        </div>
+        
+        <!-- Environment Stats -->
+        <!-- Environment Stats -->
+        <div class="grid grid-cols-3 gap-4 mb-6">
+            <div class="bg-green-50 p-4 rounded-xl text-center">
+                <div class="text-green-600 font-semibold">Temperature</div>
+                <div class="text-2xl font-bold text-green-800" id="temp-display">25°C</div>
+            </div>
+            <div class="bg-green-50 p-4 rounded-xl text-center">
+                <div class="text-green-600 font-semibold">Humidity</div>
+                <div class="text-2xl font-bold text-green-800" id="humidity-display">60%</div>
+            </div>
+            <div class="bg-green-50 p-4 rounded-xl text-center">
+                <div class="text-green-600 font-semibold">Soil Moisture</div>
+                <div class="text-2xl font-bold text-green-800" id="moisture-display">40%</div>
+            </div>
+        </div>
+
+
+        <!-- Recommendation Section -->
+        <div class="bg-white rounded-xl p-6 shadow-lg">
+            <div class="flex items-center mb-4">
+                <svg class="w-6 h-6 text-green-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <h3 class="text-xl font-semibold text-green-800">AI Recommendation</h3>
+            </div>
+            <div id="response-container" class="prose prose-green max-w-none text-gray-700 text-lg leading-relaxed">
+                <div class="animate-pulse">
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Function to fetch and update the latest data
+        async function fetchLatestResponse() {
+            try {
+                // Show loading animation
+                document.getElementById('response-container').innerHTML = `
+                    <div class="animate-pulse">
+                        <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                        <div class="h-4 bg-gray-200 rounded w-1/2"></div>
+                    </div>
+                `;
+
+                // Fetch the latest data
+                const response = await fetch('http://127.0.0.1:5000/latest-response');
+                const data = await response.json();
+
+                if (data.response) {
+                    // Update recommendation
+                    document.getElementById('response-container').innerHTML = marked.parse(data.response);
+
+                    // Update environmental data
+                    document.getElementById('temp-display').textContent = `${data.temperature}°C`;
+                    document.getElementById('humidity-display').textContent = `${data.humidity}%`;
+                    document.getElementById('moisture-display').textContent = `${data.soil_moisture}`;
+                } else {
+                    document.getElementById('response-container').innerHTML = `
+                        <div class="text-red-600 flex items-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Error: ${data.error || 'No data available'}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                document.getElementById('response-container').innerHTML = `
+                    <div class="text-red-600 flex items-center">
+                        <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Failed to fetch data. Please check your connection.
+                    </div>
+                `;
+            }
+        }
+
+        // Initial data fetch
+        fetchLatestResponse();
+
+        // Fetch data every 1 minute
+        setInterval(fetchLatestResponse, 60000);
+
+    </script>
+    vv
+</body>
+</html>
+
