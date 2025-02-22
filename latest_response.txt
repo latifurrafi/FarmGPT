@@ -1,2 +1,8 @@
-32,80,150
-High temperature and humidity (32°C, 80%) combined with moderate soil moisture (150) suggest the tomatoes may need watering, but not excessively.  Check the top inch of soil; if dry, water deeply but infrequently to avoid fungal diseases.  Fertilization is likely needed; apply a balanced tomato fertilizer according to package directions. Monitor for pests and diseases common in hot, humid weather.  Ensure good air circulation to prevent fungal growth.
+0,0,0
+**Critical Situation:**  The environmental conditions (0°C, 0% humidity, 0 soil moisture) are extremely harsh and likely lethal for tomato plants.  Immediate action is required.
+
+**Recommendations:**
+
+* **Watering:**  This is not a matter of watering; the plant is likely frozen.  Move the plant to a warmer location (indoors) immediately.
+* **Fertilization:**  Fertilizing is irrelevant until the plant's survival is ensured.
+* **Overall Plant Care:**  Focus on warming the plant gradually.  Protect it from frost. Once above freezing and the plant shows signs of life, assess for damage and then consider supplemental lighting and gradual rehydration.  The soil moisture sensor may need recalibration.
